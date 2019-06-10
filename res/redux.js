@@ -1,27 +1,28 @@
 function globalRedux(initState, reducer) {
-  globalRedux.state = initState
-  globalRedux.reducer = reducer
+  this.state = initState || {}
+  this.reducer = reducer
   // globalRedux.update()
 }
 
-globalRedux.prototype.subscribe = (func) => {
+globalRedux.prototype.subscribe = function (func) {
   // not arr for now
-  globalRedux.updateCallBack = func
+  this.updateCallBack = func
+  this.update()
 }
 
-globalRedux.prototype.getState = () => {
-  return globalRedux.state
+globalRedux.prototype.getState = function () {
+  return this.state
 }
 
-globalRedux.prototype.update = () => {
-  if (globalRedux.updateCallBack) {
-    globalRedux.updateCallBack()
+globalRedux.prototype.update = function () {
+  if (this.updateCallBack) {
+    this.updateCallBack()
   }
 }
 
-globalRedux.prototype.dispatch = (action) => {
-  const newState = globalRedux.reducer(globalRedux.state, action)
-  globalRedux.state = newState
-  globalRedux.upload()
+globalRedux.prototype.dispatch = function (action) {
+  const newState = this.reducer(this.state, action)
+  this.state = newState
+  this.update()
 }
 
