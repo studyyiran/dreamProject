@@ -1,0 +1,22 @@
+{
+  "short_name": "React App",
+  "name": "Time files",
+  "manifest_version": 2,
+  "browser_action": {
+    "default_icon": "res/img/icon.png",
+    "default_popup": "index.html",
+    "default_title": "time-flies-test"
+  },
+  "version": "1.0",
+  "content_scripts": [
+    {
+      "matches": ["https://*/*", "http://*/*"],
+      "css": [
+        "res/index.css"
+      ],
+      "js": [
+        "res/index.js"
+      ]
+    }
+  ]
+}
