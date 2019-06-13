@@ -3,20 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <!--工具类-->
+    <script src="res/redux/redux.js"></script>
+    <script src="res/util/moment.js"></script>
+    <!--常量-->
+    <script src="res/config/const.js"></script>
+    <!--项目类-->
+    <script src="res/db/index.js"></script>
+    <script src="res/redux/reducer.js"></script>
+    <script src="res/server/index.js"></script>
+    <!--页面业务-->
+    <script src="./res/pages/today/index.js"></script>
+    <script src="./res/pages/history/index.js"></script>
 
 </head>
 <body>
+    <!--根路径-->
     <div id="app"></div>
-    <script src="res/util/redux.js"></script>
-    <script src="res/util/moment.js"></script>
+    <!--入口文件-->
     <script src="./res/index.js"></script>
+    <!--测试-->
     <script src="./res/index.test.js"></script>
     <link rel="stylesheet" type="text/css" href="./res/index.css">
-    <script>
-        let a = []
-        let b
-        (a || b).push(123)
-        console.log(a)
-    </script>
 </body>
 </html>
