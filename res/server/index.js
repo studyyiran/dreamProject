@@ -4,7 +4,11 @@ history操作函数
  type
 
  出参
- date？
+ {
+  todayInfo:
+  yesterdayInfo:
+  historyArr:
+ }
  */
 
 function historyToResult(list) {

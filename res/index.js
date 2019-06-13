@@ -1,12 +1,13 @@
 // 变量
-let current = 1
+let current = 0
 
 // start
 initRedux(appGlobalStoreKey)
 
 function initRedux(saveKey) {
   const state = loadFromDb(saveKey)
-  window.appRedux = new globalRedux(state, reducer)
+  window.appRedux = Redux.createStore(reducer, state)
+  console.log(window.appRedux)
 }
 
 // set root dom
