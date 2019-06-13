@@ -12,8 +12,6 @@ history操作函数
  */
 
 function historyToResult(list) {
-  const todayTime = moment()
-  let lastDay
   let dateArr = [];
   (list || []).forEach((item) => {
     const {time} = item

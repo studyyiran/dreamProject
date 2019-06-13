@@ -26,8 +26,8 @@ function loadFromDb(saveKey) {
  */
 function saveReduxIntoDb() {
   const state = appRedux.getState()
-  // const globalData = loadFromDb(appGlobalStoreKey) || {}
+  // const globalData = loadFromDb(localStorageKey) || {}
   // const saveData = Object.assign(globalData, data)
-  localStorage.setItem(appGlobalStoreKey, JSON.stringify(state))
+  localStorage.setItem(localStorageKey, JSON.stringify(state))
   return 1
 }

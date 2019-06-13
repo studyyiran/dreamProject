@@ -8,22 +8,27 @@ function renderPageToday({defaultInput, history={}}) {
   page1.id = id
   page1.setAttribute('id', 'page1')
   page1.innerHTML = `<p>
-        <span>今天的日期</span>
+        <span>今天的日期：</span>
         <span>${todayInfo && todayInfo.arr && todayInfo.arr[0] && moment(todayInfo.arr[0].time).format('YYYY-MM-DD')}</span>
-    </p><p>
-        <span>今天</span>
+    </p>
+    <p>
+        <span>距离最新更新过去了：</span>
+        <span>${moment.duration(moment().subtract(moment(todayInfo.arr[0].time))).asMinutes()}</span>
+    </p>
+    <p>
+        <span>今天：</span>
         <span>${todayInfo && todayInfo.arr && todayInfo.arr[0] && todayInfo.arr[0].goalTitle}</span>
     </p>
     <p>
-        <span>昨天</span>
+        <span>昨天：</span>
         <span>${yesterdayInfo && yesterdayInfo.arr && yesterdayInfo.arr[0] && yesterdayInfo.arr[0].goalTitle}</span>
     </p>
     <p>
-        <span>输入</span>
+        <span>输入：</span>
         <input />
     </p>
     <p>
-        <span>浏览</span>
+        <span>浏览：</span>
         <span></span>
     </p>
     <button>确认输入了呢！</button>`
@@ -37,7 +42,7 @@ function renderPageToday({defaultInput, history={}}) {
     outPut.innerText = input.value
   })
 
-  const outPut = page1.querySelector('*:nth-child(5) > span:last-child')
+  const outPut = page1.querySelector('*:nth-child(6) > span:last-child')
   outPut.innerText = input.value
 
   const button = page1.querySelector('button')

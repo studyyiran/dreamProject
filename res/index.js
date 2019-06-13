@@ -2,7 +2,7 @@
 let current = 0
 
 // start
-initRedux(appGlobalStoreKey)
+initRedux(localStorageKey)
 
 function initRedux(saveKey) {
   const state = loadFromDb(saveKey)
@@ -38,6 +38,11 @@ function update(redux) {
     history: state[saveKeyGoalHistory]
   }), current === 1))
   // 怎么设置一个好的props
+
+
+  makeSlot('review', makeHidden(pagesReviewRender({
+    history: state[reviewStore]
+  }), current === 2))
 }
 
 function makeHidden(dom, bool=true) {
