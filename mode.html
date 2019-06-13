@@ -3,8 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+
 </head>
 <body>
 
 </body>
+<script>
+  // const a = [{id:1}, {id: 2}, {id:3}]
+  // const b = a.find((item) => item.id === 1)
+  // const c = [...a]
+  // console.log(c[0] === b)
+  const a = [{id: 1}, {id: 2}, {id: 3}]
+  const b = [...a]
+  b.splice(1, 1)
+  console.log(a)
+  console.log(b)
+  // isSame(a[0],b[0])
+  function isSame(a, b) {
+    const body = document.querySelector('body')
+    const div = document.createElement('div')
+    div.innerHTML = a===b
+    body.appendChild(div)
+  }
+</script>
 </html>

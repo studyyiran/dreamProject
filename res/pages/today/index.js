@@ -46,7 +46,6 @@ function renderPageToday({defaultInput, history={}}) {
     // const string = input.value
     // recordNewDate(string)
     window.appRedux.dispatch({type: 'saveHistory'})
-    saveReduxIntoDb()
   })
   console.log(page1)
   return page1

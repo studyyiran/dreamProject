@@ -24,8 +24,15 @@ function renderHistory({history}) {
         } else {
           goalDom.innerHTML = `no goal`
         }
+
+        const deleteButton = document.createElement('button')
+        deleteButton.addEventListener('click', () => {
+          window.appRedux.dispatch({type: 'deleteRecord', value: item})
+        })
+        deleteButton.innerText = '删除记录'
         pDom.appendChild(dateDom)
         pDom.appendChild(goalDom)
+        pDom.appendChild(deleteButton)
         li.appendChild(pDom)
       })
     }
