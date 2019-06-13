@@ -1,5 +1,4 @@
 function renderPageToday({defaultInput, history={}}) {
-  console.log(history)
   const info = historyToResult(history) || {}
   const {todayInfo, yesterdayInfo, historyArr} = info
   const id = 'page1'

@@ -1,5 +1,5 @@
 // 变量
-let current = 0
+let current = 1
 
 // start
 initRedux(appGlobalStoreKey)
