@@ -11,12 +11,8 @@ const reducer = (oldState, action) => {
       break
     case 'saveHistory':
       {
-        const newState = {...oldState}
-        const currentSaveValue = recordNewDate(document.querySelector('input').value)
-        // const currentSaveValue = newState[saveKeyTitle]
-        newState[saveKeyGoalHistory] = newState[saveKeyGoalHistory] || []
-        newState[saveKeyGoalHistory].push(currentSaveValue)
-        // newState[saveKeyGoalHistory] = (newState[saveKeyGoalHistory] || []).push(currentSaveValue)
+        const newState = {...oldState};
+        (newState[saveKeyGoalHistory] = newState[saveKeyGoalHistory] || []).push(value);
         saveReduxIntoDb()
         return newState
       }

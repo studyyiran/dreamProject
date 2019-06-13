@@ -47,10 +47,7 @@ function renderPageToday({defaultInput, history={}}) {
 
   const button = page1.querySelector('button')
   button.addEventListener('click', () => {
-    // getAttribute 和 .vlaue有什么区别。dom节点本质上的obj是如何完成view和modal的关联的。
-    // const string = input.value
-    // recordNewDate(string)
-    window.appRedux.dispatch({type: 'saveHistory'})
+    window.appRedux.dispatch({type: 'saveHistory', value: recordNewDate(input.value)})
   })
   console.log(page1)
   return page1

@@ -9,6 +9,15 @@
 
 </body>
 <script>
+    const attrNode = document.createAttribute('name')
+    const body = document.querySelector('body')
+    const div = document.createElement('div')
+    const text = document.createTextNode('123')
+    attrNode.value = 'haha'
+    div.appendChild(text)
+    div.setAttributeNode(attrNode)
+    body.appendChild(div)
+    console.log(body.childNodes)
   // const a = [{id:1}, {id: 2}, {id:3}]
   // const b = a.find((item) => item.id === 1)
   // const c = [...a]

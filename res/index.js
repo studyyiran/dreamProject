@@ -1,5 +1,5 @@
 // 变量
-let current = 0
+let current = 2
 
 // start
 initRedux(localStorageKey)
