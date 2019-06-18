@@ -8,12 +8,12 @@ function renderPageToday({defaultInput, history={}}) {
   page1.id = id
   page1.setAttribute('id', 'page1')
   page1.innerHTML = `<p>
-        <span>今天的日期：</span>
-        <span>${todayInfo && todayInfo.arr && todayInfo.arr[0] && moment(todayInfo.arr[0].time).format('YYYY-MM-DD')}</span>
+        <span>当前的日期：</span>
+        <span>${moment().format('YYYY-MM-DD')}</span>
     </p>
     <p>
         <span>距离最新更新过去了：</span>
-        <span>${moment.duration(moment().subtract(moment(todayInfo.arr[0].time))).asMinutes()}</span>
+        <span>${calcPassTime()}</span>
     </p>
     <p>
         <span>今天：</span>
@@ -32,6 +32,21 @@ function renderPageToday({defaultInput, history={}}) {
         <span></span>
     </p>
     <button>确认输入了呢！</button>`
+
+  function calcPassTime() {
+    // const a0 = historyArr[0][0].time
+    // const a = moment(historyArr[0][0].time)
+    // const b = moment()
+    // const c = a.subtract(b)
+    // const r1 = moment.duration(c)
+    // const r2 = r1.asMinutes()
+    if (todayInfo && todayInfo.arr && todayInfo.arr[0] && todayInfo.arr[0].time) {
+      return moment(todayInfo.arr[0].time).fromNow()
+      // return `${moment.duration(moment().subtract(moment(todayInfo.arr[0].time))).asMinutes()}`
+    } else {
+      return moment(historyArr[0][0].time).fromNow()
+    }
+  }
 
   const input = page1.querySelector('input')
   input.setAttribute('value', defaultInput)
