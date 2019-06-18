@@ -7,7 +7,7 @@ function renderPageToday({defaultInput, history={}}) {
   defaultInput = (todayInfo && todayInfo.arr && todayInfo.arr[0] && todayInfo.arr[0].goalTitle) || '还没决定呢！'
   page1.id = id
   page1.setAttribute('id', 'page1')
-  page1.innerHTML = `<p>
+    page1.innerHTML = `<p>
         <span>当前的日期：</span>
         <span>${moment().format('YYYY-MM-DD')}</span>
     </p>
@@ -24,13 +24,13 @@ function renderPageToday({defaultInput, history={}}) {
         <span>${yesterdayInfo && yesterdayInfo.arr && yesterdayInfo.arr[0] && yesterdayInfo.arr[0].goalTitle}</span>
     </p>
     <p>
-        <span>输入：</span>
-        <input />
+        <span>输入</span>
+        <textarea></textarea>
     </p>
-    <p>
-        <span>浏览：</span>
-        <span></span>
-    </p>
+    <!--<p>-->
+        <!--<span>浏览：</span>-->
+        <!--<span></span>-->
+    <!--</p>-->
     <button>确认输入了呢！</button>`
 
   function calcPassTime() {
@@ -48,18 +48,18 @@ function renderPageToday({defaultInput, history={}}) {
     }
   }
 
-  const input = page1.querySelector('input')
-  input.setAttribute('value', defaultInput)
+  const input = page1.querySelector('textarea')
+  console.log(input)
+  input.innerText = defaultInput
   input.addEventListener('input', (e) => {
     const value = e && e.target && e.target.value
     // input 代表的view  input方法 代表的行为 controller。 数值代表的modal 都应该解耦掉
     // window.appRedux.dispatch({type: 'changeTitle', value: recordNewDate(value)})
-    outPut.innerText = input.value
+    // outPut.innerText = input.value
   })
 
-  const outPut = page1.querySelector('*:nth-child(6) > span:last-child')
-  outPut.innerText = input.value
-
+  // const outPut = page1.querySelector('*:nth-child(6) > span:last-child')
+  // outPut.innerText = input.value
   const button = page1.querySelector('button')
   button.addEventListener('click', () => {
     window.appRedux.dispatch({type: 'saveHistory', value: recordNewDate(input.value)})

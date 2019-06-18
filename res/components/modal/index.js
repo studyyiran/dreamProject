@@ -1,7 +1,7 @@
 function componentModal (props={}) {
   const {children = ''} = props
   const modal = document.createElement('div')
-  modal.innerHTML = children
+  modal.appendChild(children)
   modal.setAttribute('class', 'components-modal')
   const body = document.querySelector('body')
   body.appendChild(modal)
@@ -13,4 +13,12 @@ componentModal.prototype.distroy = function () {
     this.modal.parentNode.removeChild(this.modal)
   }
 
+}
+
+componentModal.prototype.setVisible = function (visibility) {
+  if (this.modal) {
+    let value = visibility ? 'visible' : 'hidden'
+    console.log(value)
+    this.modal.setAttribute('style', `visibility: ${value}`)
+  }
 }
