@@ -29,6 +29,14 @@ const reducer = (oldState, action) => {
       return newState
     }
       break
+    case 'saveReviewList':
+    {
+      const newState = {...oldState};
+      (newState[reviewList] = newState[reviewList] || []).push(value);
+      saveReduxIntoDb()
+      return newState
+      break
+    }
     default:
       return oldState
   }

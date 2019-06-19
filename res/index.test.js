@@ -1,12 +1,10 @@
 function test(string, func) {
-  console.log(string + 'result is ')
   func()
 }
 
 function expect(value2) {
   return {
     toBe: (value) => {
-      console.log(value2 === value)
       return value2 === value
     }
   }

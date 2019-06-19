@@ -1,6 +1,6 @@
 const ajax = {}
 ajax.post = function (url, data) {
-  ajax.fetch({
+  return ajax.fetch({
     url,
     method: 'POST',
     body: JSON.stringify(data),
@@ -10,13 +10,30 @@ ajax.post = function (url, data) {
   })
 }
 
-ajax.fetch = function (config) {
-  console.log('ajax')
-  console.log(config)
-  const {url, ...otherConfig} = config
-  fetch(url, otherConfig).then((res) => {
-    console.log(res)
-  }).catch((e) => {
-    console.error(e)
+ajax.get = function (url) {
+  return ajax.fetch({
+    url,
+    method: 'GET',
   })
+}
+
+ajax.wrapper = function (func) {
+  return func
+}
+
+ajax.fetch = function (config) {
+  const {url, ...otherConfig} = config
+  return new Promise((resolve, reject) => {
+    fetch(url, otherConfig).then((res) => {
+      const result = res.json()
+      if (true) {
+        resolve(result)
+      } else {
+        reject(res)
+      }
+    }).catch((e) => {
+      console.error(e)
+    })
+  })
+
 }

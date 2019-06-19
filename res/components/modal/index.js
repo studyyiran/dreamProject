@@ -18,7 +18,6 @@ componentModal.prototype.distroy = function () {
 componentModal.prototype.setVisible = function (visibility) {
   if (this.modal) {
     let value = visibility ? 'visible' : 'hidden'
-    console.log(value)
     this.modal.setAttribute('style', `visibility: ${value}`)
   }
 }

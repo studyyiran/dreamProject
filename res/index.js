@@ -18,12 +18,10 @@ document.querySelector('#app').appendChild(root)
 appRedux.subscribe(update.bind(this, appRedux))
 
 function update(redux) {
-  console.log(current)
   const state = redux.getState()
   makeSlot('main', pagesMainRender({
     onChange: (value) => {
       current = value
-      console.log(current)
       window.appRedux.update()
     }
   }))
@@ -40,7 +38,7 @@ function update(redux) {
 
 
   makeSlot('review', makeHidden(pagesReviewRender({
-    history: state[reviewStore]
+    history: state[reviewList]
   }), current === 2))
 }
 

@@ -1,4 +1,5 @@
 const localStorageKey = 'appGlobalStore'
 const saveKeyTitle = 'saveKeyTitle'
 const saveKeyGoalHistory = 'saveKeyGoalHistory'
-const reviewStore = 'reviewStore'
+// const reviewStore = 'reviewStore'
+const reviewList = 'reviewList'

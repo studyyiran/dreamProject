@@ -1,4 +1,13 @@
+function componentDidMount() {
+  getReviewList().then((res) => {
+    console.log(res)
+  })
+}
+
 function pagesReviewRender() {
+  //
+  console.log('run pagesReviewRender')
+  componentDidMount()
   const reviewDom = document.createElement('div')
   const innerFormDom = formDom()
   let modal = new componentModal({children: innerFormDom})
@@ -26,7 +35,6 @@ function formDom () {
     e.preventDefault()
     const json = {}
     arr.forEach(({id}) => json[id] = form && form[id] && form[id].value)
-    console.log(json)
     postNewReview(json)
   })
 

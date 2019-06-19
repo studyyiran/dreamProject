@@ -49,7 +49,6 @@ function renderPageToday({defaultInput, history={}}) {
   }
 
   const input = page1.querySelector('textarea')
-  console.log(input)
   input.placeholder = (todayInfo && todayInfo.arr && todayInfo.arr[0] && todayInfo.arr[0].goalTitle) || emptyContent
   input.addEventListener('input', (e) => {
     const value = e && e.target && e.target.value
@@ -64,6 +63,5 @@ function renderPageToday({defaultInput, history={}}) {
   button.addEventListener('click', () => {
     window.appRedux.dispatch({type: 'saveHistory', value: recordNewDate(input.value)})
   })
-  console.log(page1)
   return page1
 }
