@@ -7,7 +7,6 @@ initRedux(localStorageKey)
 function initRedux(saveKey) {
   const state = loadFromDb(saveKey)
   window.appRedux = Redux.createStore(reducer, state)
-  console.log(window.appRedux)
 }
 
 // set root dom

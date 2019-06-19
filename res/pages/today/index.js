@@ -2,9 +2,9 @@ function renderPageToday({defaultInput, history={}}) {
   const info = historyToResult(history) || {}
   const {todayInfo, yesterdayInfo, historyArr} = info
   const id = 'page1'
+  const emptyContent = '还没有决定'
   let page1 = document.createElement('div')
   // 这个页面如何继续解耦 分治 模块化 组件化 是个比较头疼的问题。灰常头疼。
-  defaultInput = (todayInfo && todayInfo.arr && todayInfo.arr[0] && todayInfo.arr[0].goalTitle) || '还没决定呢！'
   page1.id = id
   page1.setAttribute('id', 'page1')
     page1.innerHTML = `<p>
@@ -17,7 +17,7 @@ function renderPageToday({defaultInput, history={}}) {
     </p>
     <p>
         <span>今天：</span>
-        <span>${todayInfo && todayInfo.arr && todayInfo.arr[0] && todayInfo.arr[0].goalTitle}</span>
+        <span>${(todayInfo && todayInfo.arr && todayInfo.arr[0] && todayInfo.arr[0].goalTitle) || emptyContent}</span>
     </p>
     <p>
         <span>昨天：</span>
@@ -50,7 +50,7 @@ function renderPageToday({defaultInput, history={}}) {
 
   const input = page1.querySelector('textarea')
   console.log(input)
-  input.innerText = defaultInput
+  input.placeholder = (todayInfo && todayInfo.arr && todayInfo.arr[0] && todayInfo.arr[0].goalTitle) || emptyContent
   input.addEventListener('input', (e) => {
     const value = e && e.target && e.target.value
     // input 代表的view  input方法 代表的行为 controller。 数值代表的modal 都应该解耦掉
