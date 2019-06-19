@@ -24,8 +24,8 @@ function loadFromDb(saveKey) {
 出参
   success
  */
-function saveReduxIntoDb() {
-  const state = appRedux.getState()
+function saveReduxIntoDb(newState) {
+  const state = newState || appRedux.getState()
   // const globalData = loadFromDb(localStorageKey) || {}
   // const saveData = Object.assign(globalData, data)
   localStorage.setItem(localStorageKey, JSON.stringify(state))

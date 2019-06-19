@@ -51,6 +51,7 @@ function makeHidden(dom, bool=true) {
   return dom
 }
 
+// 这种根据是否能在页面中获取，来做插入，感觉不太好。
 function makeSlot(id, dom, bool=true) {
   let slot = document.querySelector(`#${id}`)
   if (slot) {

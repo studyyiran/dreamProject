@@ -1,11 +1,17 @@
+let haveInit = false
+
 function componentDidMount() {
-  getReviewList().then((res) => {
-    console.log(res)
-  })
+  if (!haveInit) {
+    haveInit = true
+    getReviewList().then((res) => {
+      console.log(res)
+    })
+  }
 }
 
-function pagesReviewRender() {
+function pagesReviewRender(props) {
   //
+  console.log(props)
   console.log('run pagesReviewRender')
   componentDidMount()
   const reviewDom = document.createElement('div')
