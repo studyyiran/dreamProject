@@ -3,8 +3,7 @@ function componentModal (props={}) {
   const modal = document.createElement('div')
   modal.appendChild(children)
   modal.setAttribute('class', 'components-modal')
-  const body = document.querySelector('body')
-  body.appendChild(modal)
+  root.appendChild(modal)
   this.modal = modal
 }
 

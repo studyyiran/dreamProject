@@ -3,7 +3,15 @@ const localUrl = host + '/reviewPart'
 const reviewServer = {
   postNewReview: function postNewReview(data) {
     const url = localUrl + '/postReview'
-    return ajax.post(url, data)
+    // 不能为空
+    if (Object.keys(data).every((item) => data[item])) {
+      return ajax.post(url, data).then((res) => {
+        window.appRedux.dispatch({type: 'setReviewList', value: res})
+        return res
+      })
+    } else {
+
+    }
   },
   getReviewList: function getReviewList() {
     const url = localUrl + '/getReviewList'

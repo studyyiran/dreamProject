@@ -12,6 +12,8 @@ function pagesReviewRender(props) {
   const reviewDom = document.createElement('div')
   const innerFormDom = formDom()
   let modal = new componentModal({children: innerFormDom})
+  // TODO 难以搞定
+  // const buttomDom = cacheDomWithId(renderButton(modal), 'pagesReviewPostReviewForm')
   const buttomDom = renderButton(modal)
   reviewDom.appendChild(buttomDom)
   reviewDom.appendChild(renderLine(reviewDom, props.reviewList))
@@ -27,6 +29,7 @@ function renderLine(root, list) {
                 <th>内容</th>
                 <th>生命周期</th>
                 <th>复习周期</th>
+                <th>完成+1</th>
                 <th>删除</th>
             </tr>
         </thead>
@@ -43,10 +46,15 @@ function renderLine(root, list) {
         <th>${reviewContent}</th>
         <th>${moment(Number(createTime)).to(deadLineDate)}</th>
         <th>${haveReviewCount}/${needReviewCount}</th>
-        <th><button>删除</button></th>`
-    const button = tr.querySelector('button')
-    button.addEventListener('click', () => {
+        <th><button date-type="finish">完成+1</button></th>
+        <th><button date-type="delete">删除</button></th>`
+    const buttonFinish = tr.querySelector('[date-type=finish]')
+    buttonFinish.addEventListener('click', () => {
       reviewServer.updateReviewCount(_id)
+    })
+    const buttonDelete = tr.querySelector('[date-type=delete]')
+    buttonDelete.addEventListener('click', () => {
+      reviewServer.hideReviewItem(_id)
     })
     tbody.appendChild(tr)
   })

@@ -42,9 +42,9 @@ function update(redux) {
   }), 'main')
   root.appendChild(page)
 
-  page = cacheDomWithId(renderPageToday({
+  page = renderPageToday({
     history: state[saveKeyGoalHistory]
-  }), 'today')
+  })
   root.appendChild(makeHidden(page, current === 0))
 
 
