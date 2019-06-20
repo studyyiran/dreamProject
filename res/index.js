@@ -19,27 +19,27 @@ appRedux.subscribe(update.bind(this, appRedux))
 
 function update(redux) {
   const state = redux.getState()
-  makeSlot('main', pagesMainRender({
+  makeSlot(root, pagesMainRender({
     onChange: (value) => {
       current = value
       window.appRedux.update()
     }
-  }))
+  }), 'main')
 
-  makeSlot('today', makeHidden(renderPageToday({
+  makeSlot(root, makeHidden(renderPageToday({
     history: state[saveKeyGoalHistory]
-  }), current === 0))
+  }), current === 0), 'today')
 
 
-  makeSlot('history', makeHidden(renderHistory({
+  makeSlot(root, makeHidden(renderHistory({
     history: state[saveKeyGoalHistory]
-  }), current === 1))
+  }), current === 1), 'history')
   // 怎么设置一个好的props
 
 
-  makeSlot('review', makeHidden(pagesReviewRender({
+  makeSlot(root, makeHidden(pagesReviewRender({
     history: state[reviewList]
-  }), current === 2))
+  }), current === 2), 'review')
 }
 
 function makeHidden(dom, bool=true) {
@@ -50,19 +50,3 @@ function makeHidden(dom, bool=true) {
   }
   return dom
 }
-
-// 这种根据是否能在页面中获取，来做插入，感觉不太好。
-function makeSlot(id, dom, bool=true) {
-  let slot = document.querySelector(`#${id}`)
-  if (slot) {
-    slot.innerHTML = ''
-  } else {
-    slot = document.createElement('div')
-    slot.id = id
-    root.appendChild(slot)
-  }
-
-  slot.appendChild(dom)
-}
-
-

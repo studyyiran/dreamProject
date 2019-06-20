@@ -1,12 +1,12 @@
 function renderPageToday({defaultInput, history={}}) {
   const info = historyToResult(history) || {}
   const {todayInfo, yesterdayInfo, historyArr} = info
-  const id = 'page1'
+  // const id = 'page1'
   const emptyContent = '还没有决定'
   let page1 = document.createElement('div')
   // 这个页面如何继续解耦 分治 模块化 组件化 是个比较头疼的问题。灰常头疼。
-  page1.id = id
-  page1.setAttribute('id', 'page1')
+  // page1.id = id
+  // page1.setAttribute('id', 'page1')
     page1.innerHTML = `<p>
         <span>当前的日期：</span>
         <span>${moment().format('YYYY-MM-DD')}</span>

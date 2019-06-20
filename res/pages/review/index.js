@@ -3,14 +3,11 @@ let haveInit = false
 function componentDidMount() {
   if (!haveInit) {
     haveInit = true
-    getReviewList().then((res) => {
-      console.log(res)
-    })
+    getReviewList()
   }
 }
 
 function pagesReviewRender(props) {
-  //
   console.log(props)
   console.log('run pagesReviewRender')
   componentDidMount()
@@ -19,7 +16,19 @@ function pagesReviewRender(props) {
   let modal = new componentModal({children: innerFormDom})
   const buttomDom = renderButton(modal)
   reviewDom.appendChild(buttomDom)
+  renderLine(reviewDom, props.history)
   return reviewDom
+}
+
+function renderLine(root, list) {
+  const lineContainer = document.createElement('ul')
+  list.forEach((item) => {
+    const {reviewContent, reviewLifeTime, reviewAttackTime} = item
+    const li = document.createElement('li')
+    li.innerText = reviewContent
+    lineContainer.appendChild(li)
+  })
+  return makeSlot(root, lineContainer, 'pagesReviewIndexList')
 }
 
 function renderButton (modal) {
