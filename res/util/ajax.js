@@ -10,6 +10,17 @@ ajax.post = function (url, data) {
   })
 }
 
+ajax.put = function (url, data) {
+  return ajax.fetch({
+    url,
+    method: 'PUT',
+    body: JSON.stringify(data),
+    headers: {
+      'content-type': 'application/json'
+    },
+  })
+}
+
 ajax.get = function (url) {
   return ajax.fetch({
     url,

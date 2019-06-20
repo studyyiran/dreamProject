@@ -3,32 +3,56 @@ let haveInit = false
 function componentDidMount() {
   if (!haveInit) {
     haveInit = true
-    getReviewList()
+    reviewServer.getReviewList()
   }
 }
 
 function pagesReviewRender(props) {
-  console.log(props)
-  console.log('run pagesReviewRender')
   componentDidMount()
   const reviewDom = document.createElement('div')
   const innerFormDom = formDom()
   let modal = new componentModal({children: innerFormDom})
   const buttomDom = renderButton(modal)
   reviewDom.appendChild(buttomDom)
-  renderLine(reviewDom, props.history)
+  reviewDom.appendChild(renderLine(reviewDom, props.reviewList))
   return reviewDom
 }
 
 function renderLine(root, list) {
-  const lineContainer = document.createElement('ul')
+  const lineContainer = document.createElement('div')
+  lineContainer.innerHTML = `<table border="1">
+        <thead>
+            <tr>
+                <th>创建时间</th>
+                <th>内容</th>
+                <th>生命周期</th>
+                <th>复习周期</th>
+                <th>删除</th>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>`
+  const tbody = lineContainer.querySelector('tbody')
   list.forEach((item) => {
-    const {reviewContent, reviewLifeTime, reviewAttackTime} = item
-    const li = document.createElement('li')
-    li.innerText = reviewContent
-    lineContainer.appendChild(li)
+    const {_id, reviewContent, totalReviewNeedTime, needReviewCount, haveReviewCount, createTime} = item
+    const tr = document.createElement('tr')
+    const deadLineDate = moment().add(totalReviewNeedTime, 'd')
+    tr.innerHTML = `
+        <th>${moment(Number(createTime)).format('MM-DD hh:mm:ss  ')}</th>
+        <th>${reviewContent}</th>
+        <th>${moment(Number(createTime)).to(deadLineDate)}</th>
+        <th>${haveReviewCount}/${needReviewCount}</th>
+        <th><button>删除</button></th>`
+    const button = tr.querySelector('button')
+    button.addEventListener('click', () => {
+      reviewServer.updateReviewCount(_id)
+    })
+    tbody.appendChild(tr)
   })
-  return makeSlot(root, lineContainer, 'pagesReviewIndexList')
+  return lineContainer
+  //  我不明白这个有啥用？
+  // return makeSlot(root, lineContainer, 'pagesReviewIndexList')
 }
 
 function renderButton (modal) {
@@ -50,7 +74,7 @@ function formDom () {
     e.preventDefault()
     const json = {}
     arr.forEach(({id}) => json[id] = form && form[id] && form[id].value)
-    postNewReview(json)
+    reviewServer.postNewReview(json)
   })
 
   const arr = [
@@ -60,17 +84,18 @@ function formDom () {
     },
     {
       name: '半衰期',
-      id: 'reviewLifeTime'
+      id: 'totalReviewNeedTime'
     },
     {
       name: '持续进攻次数',
-      id: 'reviewAttackTime'
+      id: 'needReviewCount'
     }
   ]
   arr.forEach((item) => {
     newInput(item)
   })
   function newInput(item) {
+    console.log('new input')
     const {id, name} = item
     const container = document.createElement('div')
     const label = document.createElement('label')

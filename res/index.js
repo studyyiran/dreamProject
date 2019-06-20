@@ -10,36 +10,57 @@ function initRedux(saveKey) {
 }
 
 // set root dom
-const root = document.createElement('div')
+let root = document.createElement('div')
 document.querySelector('#app').appendChild(root)
 
 
 // subscribe为什么在最后？
-appRedux.subscribe(update.bind(this, appRedux))
+appRedux.subscribe(rootWrapper())
+
+function rootWrapper() {
+  return function () {
+    console.log('rootWrapper')
+    // 每次都重新渲染，解决一切烦恼。为了保存状态，请给他id，还需要暂时把oldRoot缓存下来
+    let oldRoot = root
+    root = document.createElement('div')
+    update(appRedux)
+    const app = document.querySelector('#app')
+    app.removeChild(oldRoot)
+    app.appendChild(root)
+  }
+}
 
 function update(redux) {
+
   const state = redux.getState()
-  makeSlot(root, pagesMainRender({
+  let page
+  page = cacheDomWithId(pagesMainRender({
     onChange: (value) => {
       current = value
       window.appRedux.update()
     }
   }), 'main')
+  root.appendChild(page)
 
-  makeSlot(root, makeHidden(renderPageToday({
+  page = cacheDomWithId(renderPageToday({
     history: state[saveKeyGoalHistory]
-  }), current === 0), 'today')
+  }), 'today')
+  root.appendChild(makeHidden(page, current === 0))
 
 
-  makeSlot(root, makeHidden(renderHistory({
+  page = cacheDomWithId(renderHistory({
     history: state[saveKeyGoalHistory]
-  }), current === 1), 'history')
+  }), 'history')
+  root.appendChild(makeHidden(page, current === 1))
+
   // 怎么设置一个好的props
 
 
-  makeSlot(root, makeHidden(pagesReviewRender({
-    history: state[reviewList]
-  }), current === 2), 'review')
+  page = pagesReviewRender({
+    reviewList: state[reviewList]
+  })
+  root.appendChild(makeHidden(page, current === 2))
+
 }
 
 function makeHidden(dom, bool=true) {

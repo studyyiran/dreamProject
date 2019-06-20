@@ -5,14 +5,19 @@ dom 需要绑定的子节点
 id 用来保存节点信息的id
 
  */
+/*
+这个函数，主要用于保存状态。
+但是她非常可笑。
+他只能保存最里面的状态。因为子状态会被父状态重置。。也就是说，无论子状态怎么折腾，父状态都屏蔽了他。
+我觉得react真是不错。这根本玩不起来。这个思路不太对就。
+ */
 
-function makeSlot(father, dom, id) {
+function cacheDomWithId(dom, id) {
   let slot = document.querySelector(`#${id}`)
-  if (slot) {
-    slot.parentNode.removeChild(slot)
+  if (!slot) {
+    slot = document.createElement('div')
+    slot.id = id
+    slot.appendChild(dom)
   }
-  slot = document.createElement('div')
-  slot.id = id
-  father.appendChild(slot)
-  slot.appendChild(dom)
+  return slot
 }
