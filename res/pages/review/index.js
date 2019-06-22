@@ -1,5 +1,6 @@
+// 将不变的pure function 和 变化的状态分离开。function没变，但是data变了。
 let haveInit = false
-
+let visible = false
 function componentDidMount() {
   if (!haveInit) {
     haveInit = true
@@ -10,19 +11,22 @@ function componentDidMount() {
 function pagesReviewRender(props) {
   componentDidMount()
   const reviewDom = document.createElement('div')
-  const innerFormDom = formDom()
+  reviewDom.setAttribute('class', 'review-page')
+  const innerFormDom = cacheDomWithId(formDom({submit: (json) => {
+      reviewServer.postNewReview(json)
+    }}), 'pagesReviewPostReviewForm')
   let modal = new componentModal({children: innerFormDom})
   // TODO 难以搞定
   // const buttomDom = cacheDomWithId(renderButton(modal), 'pagesReviewPostReviewForm')
   const buttomDom = renderButton(modal)
   reviewDom.appendChild(buttomDom)
-  reviewDom.appendChild(renderLine(reviewDom, props.reviewList))
+  reviewDom.appendChild(renderLine(props.reviewList))
   return reviewDom
 }
 
-function renderLine(root, list) {
+function renderLine(list) {
   const lineContainer = document.createElement('div')
-  lineContainer.innerHTML = `<table border="1">
+  lineContainer.innerHTML = `<table>
         <thead>
             <tr>
                 <th>创建时间</th>
@@ -30,7 +34,9 @@ function renderLine(root, list) {
                 <th>生命周期</th>
                 <th>复习周期</th>
                 <th>完成+1</th>
+                <th>修改</th>
                 <th>删除</th>
+                <th>开始</th>
             </tr>
         </thead>
         <tbody>
@@ -38,8 +44,10 @@ function renderLine(root, list) {
     </table>`
   const tbody = lineContainer.querySelector('tbody');
   (list || []).forEach((item) => {
-    const {_id, reviewContent, totalReviewNeedTime, needReviewCount, haveReviewCount, createTime} = item
+    const {_id, reviewContent, totalReviewNeedTime, needReviewCount, haveReviewCount, createTime, status} = item
     const tr = document.createElement('tr')
+    // 设置status
+    tr.setAttribute('data-status', status)
     const deadLineDate = moment().add(totalReviewNeedTime, 'd')
     tr.innerHTML = `
         <th>${moment(Number(createTime)).format('MM-DD hh:mm:ss  ')}</th>
@@ -47,14 +55,39 @@ function renderLine(root, list) {
         <th>${moment(Number(createTime)).to(deadLineDate)}</th>
         <th>${haveReviewCount}/${needReviewCount}</th>
         <th><button date-type="finish">完成+1</button></th>
-        <th><button date-type="delete">删除</button></th>`
+        <th><button date-type="update">修改</button></th>
+        <th><button date-type="start">开始</button></th>
+        <th><button date-type="delete">删除</button></th>
+        `
+    // 绑定button
+    // start
+    tr.querySelector('[date-type=start]').addEventListener('click', () => {
+      reviewServer.updateReviewStatus(_id, 'start')
+    })
     const buttonFinish = tr.querySelector('[date-type=finish]')
     buttonFinish.addEventListener('click', () => {
-      reviewServer.updateReviewCount(_id)
+      reviewServer.updateReviewStatus(_id, 'add')
     })
     const buttonDelete = tr.querySelector('[date-type=delete]')
     buttonDelete.addEventListener('click', () => {
       reviewServer.hideReviewItem(_id)
+    })
+    const buttonUpdate = tr.querySelector('[date-type=update]')
+
+    buttonUpdate.addEventListener('click', () => {
+      console.log('test')
+      const dom = formDom({
+        submit: (json) => {
+          reviewServer.updateReviewInfo({...json, id: _id})
+        },
+        reviewContent,
+        totalReviewNeedTime,
+        needReviewCount,
+      })
+      const modal = renderModal(dom)
+      const div = document.createElement('div')
+      // div.textContent = 'akdfjadkfakd'
+      root.appendChild(modal)
     })
     tbody.appendChild(tr)
   })
@@ -63,10 +96,17 @@ function renderLine(root, list) {
   // return makeSlot(root, lineContainer, 'pagesReviewIndexList')
 }
 
+function renderModal(childDom) {
+  const modal = document.createElement('modal')
+  modal.setAttribute('class', 'components-modal')
+  modal.appendChild(childDom)
+  return modal
+}
+
 function renderButton (modal) {
-  let visible = false
   const button = document.createElement('button')
   button.innerText = '新建任务'
+  modal.setVisible(visible)
   button.addEventListener('click', () => {
     visible = !visible
     modal.setVisible(visible)
@@ -74,7 +114,8 @@ function renderButton (modal) {
   return button
 }
 
-function formDom () {
+function formDom (props) {
+  const {submit, reviewContent='', totalReviewNeedTime, needReviewCount} = props
   const form = document.createElement('form')
   // form.setAttribute('method', 'post')
   // form.setAttribute('action', '')
@@ -82,13 +123,13 @@ function formDom () {
     e.preventDefault()
     const json = {}
     arr.forEach(({id}) => json[id] = form && form[id] && form[id].value)
-    reviewServer.postNewReview(json)
+    submit && submit(json)
   })
 
   const arr = [
     {
       name: '内容',
-      id: 'reviewContent'
+      id: 'reviewContent',
     },
     {
       name: '半衰期',
@@ -112,6 +153,7 @@ function formDom () {
     const input = document.createElement('input')
     input.id = id
     input.name = id
+    input.value = props[id]
     container.appendChild(label)
     container.appendChild(input)
     form.appendChild(container)

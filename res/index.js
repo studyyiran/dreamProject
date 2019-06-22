@@ -35,12 +35,12 @@ function update(redux) {
 
   const state = redux.getState()
   let page
-  page = cacheDomWithId(pagesMainRender({
+  page = pagesMainRender({
     onChange: (value) => {
       current = value
       window.appRedux.update()
     }
-  }), 'main')
+  })
   root.appendChild(page)
 
   page = renderPageToday({
@@ -49,9 +49,9 @@ function update(redux) {
   root.appendChild(makeHidden(page, current === 0))
 
 
-  page = cacheDomWithId(renderHistory({
+  page = renderHistory({
     history: state[saveKeyGoalHistory]
-  }), 'history')
+  })
   root.appendChild(makeHidden(page, current === 1))
 
   // 怎么设置一个好的props
@@ -64,7 +64,7 @@ function update(redux) {
 
 }
 
-function makeHidden(dom, bool=true) {
+  function makeHidden(dom, bool=true) {
   if (bool) {
     dom.setAttribute('style', 'display: auto')
   } else {

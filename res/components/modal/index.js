@@ -1,3 +1,5 @@
+// 为什么要new一个组件，这有什么隐喻？
+// 他返回的是一个对象。而dom已经上去了。
 function componentModal (props={}) {
   const {children = ''} = props
   const modal = document.createElement('div')

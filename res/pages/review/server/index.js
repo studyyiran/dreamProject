@@ -1,6 +1,14 @@
 const host = 'http://localhost:3000'
 const localUrl = host + '/reviewPart'
 const reviewServer = {
+  updateReviewInfo: function updateReviewCount(data) {
+    const url = localUrl + '/updateReviewInfo'
+    const result = ajax.put(url, data)
+    return result.then((res) => {
+      window.appRedux.dispatch({type: 'setReviewList', value: res})
+      return res
+    })
+  },
   postNewReview: function postNewReview(data) {
     const url = localUrl + '/postReview'
     // 不能为空
@@ -21,9 +29,10 @@ const reviewServer = {
       return res
     })
   },
-  updateReviewCount: function updateReviewCount(id) {
-    const url = localUrl + '/updateReviewCount'
-    const result = ajax.put(url, {id})
+  // 状态相关的更新
+  updateReviewStatus: function updateReviewCount(id, status) {
+    const url = localUrl + '/updateReviewStatus'
+    const result = ajax.put(url, {id, status})
     return result.then((res) => {
       window.appRedux.dispatch({type: 'setReviewList', value: res})
       return res
