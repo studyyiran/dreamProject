@@ -33,10 +33,11 @@ function renderLine(list) {
                 <th>内容</th>
                 <th>生命周期</th>
                 <th>复习周期</th>
-                <th>完成+1</th>
+                <th>+1</th>
+                <th>开始</th>
+                <th>结束</th>
                 <th>修改</th>
                 <th>删除</th>
-                <th>开始</th>
             </tr>
         </thead>
         <tbody>
@@ -54,15 +55,20 @@ function renderLine(list) {
         <th>${reviewContent}</th>
         <th>${moment(Number(createTime)).to(deadLineDate)}</th>
         <th>${haveReviewCount}/${needReviewCount}</th>
-        <th><button date-type="finish">完成+1</button></th>
-        <th><button date-type="update">修改</button></th>
+        <th><button date-type="finish">+1</button></th>
         <th><button date-type="start">开始</button></th>
+        <th><button date-type="stop">结束</button></th>
+        <th><button date-type="update">修改</button></th>
         <th><button date-type="delete">删除</button></th>
         `
     // 绑定button
     // start
     tr.querySelector('[date-type=start]').addEventListener('click', () => {
       reviewServer.updateReviewStatus(_id, 'start')
+    })
+    // stop
+    tr.querySelector('[date-type=stop]').addEventListener('click', () => {
+      reviewServer.updateReviewStatus(_id, 'stop')
     })
     const buttonFinish = tr.querySelector('[date-type=finish]')
     buttonFinish.addEventListener('click', () => {
