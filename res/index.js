@@ -6,7 +6,8 @@ initRedux(localStorageKey)
 
 function initRedux(saveKey) {
   const state = loadFromDb(saveKey)
-  window.appRedux = Redux.createStore(reducer, state)
+  const {reviewList, ...other} = state
+  window.appRedux = Redux.createStore(reducer, other)
 }
 
 // set root dom

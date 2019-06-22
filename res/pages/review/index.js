@@ -36,8 +36,8 @@ function renderLine(root, list) {
         <tbody>
         </tbody>
     </table>`
-  const tbody = lineContainer.querySelector('tbody')
-  list.forEach((item) => {
+  const tbody = lineContainer.querySelector('tbody');
+  (list || []).forEach((item) => {
     const {_id, reviewContent, totalReviewNeedTime, needReviewCount, haveReviewCount, createTime} = item
     const tr = document.createElement('tr')
     const deadLineDate = moment().add(totalReviewNeedTime, 'd')

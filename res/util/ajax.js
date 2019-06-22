@@ -37,6 +37,11 @@ ajax.fetch = function (config) {
   return new Promise((resolve, reject) => {
     fetch(url, otherConfig).then((res) => {
       const result = res.json()
+      // result.then((res) => {
+      //   console.log(res)
+      //   resolve(res)
+      // })
+      // console.log(result)
       if (true) {
         resolve(result)
       } else {
